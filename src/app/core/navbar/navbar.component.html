@@ -1,0 +1,17 @@
+<nav class="navbar">
+
+  <div class="container">
+    <div class="ui-g">
+      <div class="ui-g-12">
+        <p-tieredMenu #menu [model]="items" [popup]="true"></p-tieredMenu>
+        <button #btn type="button" pButton icon="pi pi-bars" (click)="menu.toggle($event)"></button>
+        <div class="navbar-content">
+          <span>{{ auth.jwtPayload?.nome }}</span>
+          <button pButton class="ui-button-danger ui-button-raised ui-button-rounded"
+            label="Logout" icon="pi pi-sign-out" (click)="logout()"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</nav>

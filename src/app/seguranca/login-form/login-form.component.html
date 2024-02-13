@@ -1,0 +1,34 @@
+<div class="ui-g">
+
+  <div class="ui-g-12 ui-md-3 center-login" style="min-width: 400px;">
+
+    <div class="ui-g-12" style="text-align: center;">
+      <img src="assets/images/logo.jpeg" alt="SGQ" />
+    </div>
+
+    <p-fieldset legend="Login">
+
+      <form autocomplete="off" #f="ngForm">
+
+        <div class="ui-g-12 ui-fluid">
+          <input pInputText type="email" name="usuario" placeholder="ID de Usuário"
+            ngModel required #usuario>
+        </div>
+
+        <div class="ui-g-12 ui-fluid">
+          <input pInputText type="password" name="senha" placeholder="Senha"
+            ngModel required #senha>
+        </div>
+
+        <div class="ui-g-12 ui-fluid">
+          <button pButton type="submit" label="Login" [disabled]="!f.valid"
+            (click)="login(usuario.value, senha.value); senha.value = '';"></button>
+        </div>
+
+      </form>
+
+    </p-fieldset>
+
+  </div>
+
+</div>

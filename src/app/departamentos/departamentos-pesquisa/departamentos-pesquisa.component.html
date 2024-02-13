@@ -1,0 +1,97 @@
+<div class="container">
+    <div class="ui-g">
+  
+      <div class="ui-g-12">
+        <p-breadcrumb [model]="breadcrumbItems" [home]="home"></p-breadcrumb>
+      </div>
+  
+      <p-fieldset legend="Filtros" [toggleable]="true" collapsed="true" class="ui-g-12">
+  
+        <form autocomplete="off" (ngSubmit)="pesquisar()">
+  
+          <div class="ui-g-12 ui-md-2 ui-fluid">
+            <label>Código</label>
+            <input pInputText type="text" name="codigo" [(ngModel)]="filtro.codigo">
+          </div>
+  
+          <div class="ui-g-12 ui-md-5 ui-fluid">
+            <label>Nome</label>
+            <input pInputText type="text" name="nome" [(ngModel)]="filtro.nome">
+          </div>
+  
+          <div class="ui-g-12 ui-md-2 ui-fluid div-button">
+            <button pButton type="submit" label="Pesquisar"
+                icon="pi pi-search" iconPos="right"></button>
+          </div>
+  
+        </form>
+  
+      </p-fieldset>
+  
+      <div class="ui-g-12">
+        <p-table [value]="departamentos" [responsive]="true"
+          [paginator]="true" [rows]="filtro.itensPorPagina"
+          [lazy]="true" [totalRecords]="totalRegistros"
+          (onLazyLoad)="aoMudarPagina($event)" autoLayout="true"
+          #tabela>
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Código</th>
+              <th>Nome</th>
+              <th>Status</th>
+              <th class="col-acoes-header"></th>
+            </tr>
+          </ng-template>
+  
+          <ng-template pTemplate="body" let-departamento>
+            <tr>
+              <td class="col-conteudo-centralizado">{{ departamento.codigo }}</td>
+              <td>{{ departamento.nome }}</td>
+              <td class="col-conteudo-centralizado">
+                <a href="javascript:;"
+                  [pTooltip]="departamento.ativo ? 'Desativar' : 'Ativar'"
+                  tooltipPosition="top"
+                  (click)="alternarStatus(departamento)">
+                  {{ departamento.ativo ? 'Ativo' : 'Inativo' }}
+                </a>
+              </td>
+              <td class="col-acoes">
+                <button pButton type="button" class="ui-button-warning"
+                  icon="pi pi-pencil" pTooltip="Editar" tooltipPosition="top"
+                  [disabled]="!auth.temPermissao('ROLE_ALTERAR_DEPARTAMENTO')"
+                  [routerLink]="['/departamentos', departamento.codigo]" style="margin-right: 0.5em"></button>
+  
+                <button pButton type="button" class="ui-button-danger"
+                  icon="pi pi-trash" pTooltip="Excluir" tooltipPosition="top"
+                  [disabled]="!auth.temPermissao('ROLE_REMOVER_DEPARTAMENTO')"
+                  (click)="confirmarExclusao(departamento)"></button>
+              </td>
+            </tr>
+          </ng-template>
+  
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="5">
+                Nenhuma registro encontrado!
+              </td>
+            </tr>
+          </ng-template>
+  
+          <ng-template pTemplate="footer" let-columns>
+            <tr>
+              <td colspan="5" style="text-align: center">
+                  Qtd. de Registros: {{ totalRegistros }}
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+  
+      <div class="ui-g-12 ui-md-2 ui-md-offset-10 ui-fluid">
+        <a pButton class="ui-button-raised"
+          label="Cadastrar" icon="pi pi-plus" iconPos="right" routerLink="/departamentos/novo"></a>
+      </div>
+  
+    </div>
+  
+  </div>

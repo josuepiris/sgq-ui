@@ -1,0 +1,63 @@
+<div class="container">
+
+    <div class="ui-g">
+
+        <div class="ui-g-12">
+            <p-breadcrumb [model]="breadcrumbItems" [home]="home"></p-breadcrumb>
+        </div>
+
+        <div class="ui-g-12" style="padding: 0em;">
+
+            <form autocomplete="off" [formGroup]="formulario">
+
+                <div class="ui-g-12">
+                    <div style="float: right;">
+                      <label style="margin-right: 0.5em;">Ativo</label>
+                      <p-checkbox binary="true" value="ativo" [formControl]="formulario.controls['ativo']"></p-checkbox>
+                    </div>
+                </div>
+
+                <div class="ui-g-12" style="padding: 0em;">
+                    <div class="ui-g-12 ui-md-2 ui-fluid">
+                        <label>Código</label>
+                        <input pInputText type="text" name="codigo" formControlName="codigo">
+                    </div>
+                </div>
+    
+                <div class="ui-g-12" style="padding: 0em;">
+                    <div class="ui-g-12 ui-md-6 ui-fluid">
+                        <label>Nome</label>
+                        <input pInputText type="text" name="nome" formControlName="nome">
+                        <app-message [control]="formulario.get('nome')" error="obrigatoriedade"
+                            text="Campo obrigatório"></app-message>
+                        <app-message [control]="formulario.get('nome')" error="tamanhoMinimo"
+                            text="Tamanho mín.: {{ formulario.get('nome').errors?.tamanhoMinimo?.tamanho }}"></app-message>
+                        <app-message [control]="formulario.get('nome')" error="tamanhoMaximo"
+                            text="Tamanho máx.: {{ formulario.get('nome').errors?.tamanhoMaximo?.tamanho }}"></app-message>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+        <div class="ui-g-12 ui-md-2 ui-fluid">
+            <button pButton type="button" class="ui-button-raised"
+                label="Consultar" icon="pi pi-search" iconPos="right" routerLink="/departamentos"
+                [disabled]="!auth.temPermissao('ROLE_CONSULTAR_DEPARTAMENTO')"></button>
+        </div>
+
+        <div class="ui-g-12 ui-md-2 ui-md-offset-6 ui-fluid">
+            <button pButton type="button" class="ui-button-raised"
+                label="Novo" icon="pi pi-times" iconPos="right"
+                [disabled]="editando && !auth.temPermissao('ROLE_CADASTRAR_DEPARTAMENTO')" (click)="novo()"></button>
+        </div>
+
+        <div class="ui-g-12 ui-md-2 ui-fluid">
+            <button pButton type="button" class="ui-button-raised ui-button-success"
+                label="Salvar" icon="pi pi-save" iconPos="right"
+                [disabled]="formulario.invalid || formulario.pristine || (editando && !auth.temPermissao('ROLE_ALTERAR_DEPARTAMENTO'))" (click)="salvar()"></button>
+        </div>
+
+    </div>
+
+</div>

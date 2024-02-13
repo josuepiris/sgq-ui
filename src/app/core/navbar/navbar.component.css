@@ -1,0 +1,15 @@
+.navbar {
+  padding: 10px 0;
+  background-color: #F78181;
+}
+
+.navbar-content {
+  float: right;
+}
+
+.navbar-content > span {
+  font-family: "Open Sans", "Helvetica Neue", sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  margin-right: 0.5em;
+}

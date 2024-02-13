@@ -1,0 +1,124 @@
+<div class="container">
+
+    <div class="ui-g">
+
+      <div class="ui-g-12">
+        <p-breadcrumb [model]="breadcrumbItems" [home]="home"></p-breadcrumb>
+      </div>
+
+      <form autocomplete="off" [formGroup]="formulario">
+
+        <div class="ui-g-12">
+          <div style="float: right;">
+            <label style="margin-right: 0.5em;">Ativo</label>
+            <p-checkbox binary="true" value="ativo" [formControl]="formulario.controls['ativo']"></p-checkbox>
+          </div>
+        </div>
+
+        <p-fieldset legend="Dados do Funcionário" class="ui-g-12 ui-md-6">
+
+          <div class="ui-g-12" style="padding: 0em;">
+
+            <div class="ui-g-12 ui-md-4 ui-fluid">
+              <label>Código</label>
+              <input pInputText type="text" name="funcionarioId"
+                formControlName="funcionarioId">
+
+              <app-message [control]="formulario.get('funcionarioId')" error="obrigatoriedade"
+                text="Informe o código do Funcionário"></app-message>
+
+              <app-message [control]="formulario.get('funcionarioId')" error="tamanhoMinimo"
+                text="Tamanho mínimo de {{ formulario.get('funcionarioId').errors?.tamanhoMinimo?.tamanho }} caracteres"></app-message>
+            </div>
+
+          </div>
+
+          <div class="ui-g-12 ui-fluid">
+            <label>Nome</label>
+            <input pInputText type="text" name="nome"
+              formControlName="nome">
+
+            <app-message [control]="formulario.get('nome')" error="obrigatoriedade"
+              text="Informe o nome do Funcionário"></app-message>
+            <app-message [control]="formulario.get('nome')" error="tamanhoMinimo"
+              text="Tamanho mínimo de {{ formulario.get('nome').errors?.tamanhoMinimo?.tamanho }} caracteres"></app-message>
+            <app-message [control]="formulario.get('nome')" error="tamanhoMaximo"
+              text="Tamanho máximo de {{ formulario.get('nome').errors?.tamanhoMaximo?.tamanho }} caracteres"></app-message>
+          </div>
+
+          <div class="ui-g-12 ui-fluid" formGroupName="departamento">
+            <label>Departamento</label>
+            <p-dropdown name="departamento" [options]="dropdownDepartamentos" placeholder="Selecione"
+              [filter]="true" resetFilterOnHide="true" emptyFilterMessage="Nenhum item correspondente."
+              formControlName="codigo"></p-dropdown>
+          </div>
+
+        </p-fieldset>
+
+        <p-fieldset legend="Login" class="ui-g-12 ui-md-6">
+
+          <div class="ui-g-12 ui-fluid">
+            <label>ID de Usuário</label>
+            <input pInputText type="text" name="userId" formControlName="userId"
+              pTooltip="Código, Nome ou E-mail" tooltipPosition="top">
+
+            <app-message [control]="formulario.get('userId')" error="obrigatoriedade"
+              text="Informe o ID do Usuário"></app-message>
+
+            <app-message [control]="formulario.get('userId')" error="tamanhoMinimo"
+              text="Tamanho mínimo de {{ formulario.get('userId').errors?.tamanhoMinimo?.tamanho }} caracteres"></app-message>
+
+            <app-message [control]="formulario.get('userId')" error="tamanhoMaximo"
+              text="Tamanho máximo de {{ formulario.get('userId').errors?.tamanhoMaximo?.tamanho }} caracteres"></app-message>
+
+          </div>
+
+          <div class="ui-g-12 ui-fluid">
+            <label>{{ !loginAtivo ? 'Senha' : 'Redefinir Senha' }}</label>
+            <input pInputText type="password" name="senha" formControlName="senha">
+
+            <app-message [control]="formulario.get('senha')" error="obrigatoriedade"
+              text="Informe a senha do Usuário"></app-message>
+
+            <app-message [control]="formulario.get('senha')" error="tamanhoMinimo"
+              text="Tamanho mínimo de {{ formulario.get('senha').errors?.tamanhoMinimo?.tamanho }} caracteres"></app-message>
+          </div>
+
+          <div class="ui-g-12 ui-fluid">
+            <label>Confirmar Senha</label>
+            <input pInputText type="password" [(ngModel)]="confirmacaoSenha"
+              [ngModelOptions]="{standalone: true}">
+          </div>
+
+        </p-fieldset>
+
+      </form>
+
+      <div class="ui-g-12 ui-md-2 ui-fluid">
+        <button pButton type="button" class="ui-button-raised"
+          label="Consultar" icon="pi pi-search" iconPos="right"
+          routerLink="/funcionarios"></button>
+      </div>
+
+      <div class="ui-g-12 ui-md-2 ui-fluid" *ngIf="editando && loginAtivo">
+        <button pButton type="button" class="ui-button-warning ui-button-raised"
+          label="Permissões" icon="pi pi-key" iconPos="right"
+          (click)="irParaGenrenciamentoPermissoes()"></button>
+      </div>
+
+      <div [ngClass]="[editando && loginAtivo ? 'ui-g-12 ui-md-2 ui-md-offset-4 ui-fluid' :
+        'ui-g-12 ui-md-2 ui-md-offset-6 ui-fluid']">
+        <button pButton type="button" class="ui-button-raised"
+          label="Limpar" icon="pi pi-times" iconPos="right" (click)="nova()"></button>
+      </div>
+
+      <div class="ui-g-12 ui-md-2 ui-fluid">
+        <button pButton type="button" class="ui-button-raised ui-button-success"
+          label="Salvar" icon="pi pi-save" iconPos="right"
+          [disabled]="formulario.pristine || formulario.invalid"
+          (click)="salvar()"></button>
+      </div>
+
+    </div>
+
+</div>
